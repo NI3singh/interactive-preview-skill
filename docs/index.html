@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PreviewForge — Try it before you sign up · interactive-preview</title>
+<meta name="description" content="A Claude Code skill that turns any React or Next.js codebase into an interactive, theme-matched 'try it before you sign up' demo — auto-generated, isolated, leak-free." />
+<meta property="og:title" content="PreviewForge · interactive-preview" />
+<meta property="og:description" content="Turn any React/Next.js codebase into an interactive 'try it before you sign up' demo — auto-generated from your own UI." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f7f8fa;
+    --bg-elev: #ffffff;
+    --ink: #0b1020;
+    --ink-soft: #4a5568;
+    --ink-faint: #8a94a6;
+    --border: #e7e9ee;
+    --accent: #6d5efc;
+    --accent-2: #9b6dff;
+    --amber: #f59e0b;
+    --code-bg: #0d1117;
+    --code-ink: #e6edf3;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
+    --shadow-lg: 0 24px 60px rgba(80,60,200,.18);
+  }
+  [data-theme="dark"] {
+    --bg: #0a0c14;
+    --bg-soft: #0e111c;
+    --bg-elev: #121626;
+    --ink: #eef1f8;
+    --ink-soft: #aab2c5;
+    --ink-faint: #717a90;
+    --border: #1e2336;
+    --code-bg: #0d1117;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.4);
+    --shadow-lg: 0 30px 70px rgba(0,0,0,.55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .grad-text {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2) 60%, var(--amber));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(180%) blur(14px);
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav { display: flex; align-items: center; gap: 22px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
+  .brand .logo { font-size: 22px; }
+  .nav-links { display: flex; gap: 22px; margin-left: 18px; }
+  .nav-links a { color: var(--ink-soft); font-weight: 500; font-size: 14.5px; transition: color .15s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--bg-elev); color: var(--ink); cursor: pointer; transition: all .15s;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .gh-pill {
+    display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px;
+    border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev);
+    font-weight: 600; font-size: 14px; transition: all .15s;
+  }
+  .gh-pill:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .gh-pill .star { color: var(--amber); }
+  .gh-pill .count { font-variant-numeric: tabular-nums; min-width: 1ch; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px;
+    padding: 12px 22px; border-radius: 12px; cursor: pointer; border: 1px solid transparent;
+    transition: transform .15s, box-shadow .15s, background .15s; white-space: nowrap;
+  }
+  .btn-primary { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #fff; box-shadow: 0 8px 22px rgba(109,94,252,.35); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(109,94,252,.45); }
+  .btn-ghost { background: var(--bg-elev); color: var(--ink); border-color: var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; padding: 88px 0 64px; text-align: center; }
+  .hero::before {
+    content: ""; position: absolute; inset: -20% 0 auto 0; height: 620px; z-index: -1;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(109,94,252,.18), transparent 70%),
+      radial-gradient(500px 280px at 80% 10%, rgba(245,158,11,.12), transparent 70%),
+      radial-gradient(500px 280px at 15% 15%, rgba(155,109,255,.14), transparent 70%);
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--bg-elev); font-size: 13px; font-weight: 600;
+    color: var(--ink-soft); margin-bottom: 26px; box-shadow: var(--shadow);
+  }
+  .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+  h1.hero-title { font-size: clamp(40px, 6.2vw, 68px); line-height: 1.03; letter-spacing: -.035em; font-weight: 900; }
+  .hero-sub { max-width: 660px; margin: 22px auto 0; font-size: clamp(16px, 2.2vw, 19px); color: var(--ink-soft); }
+  .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
+  .hero-note { margin-top: 16px; font-size: 13.5px; color: var(--ink-faint); }
+
+  /* ---------- Terminal ---------- */
+  .terminal {
+    max-width: 720px; margin: 52px auto 0; text-align: left; border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--code-bg); box-shadow: var(--shadow-lg);
+  }
+  .term-bar { display: flex; align-items: center; gap: 8px; padding: 13px 16px; background: #161b22; border-bottom: 1px solid #232a36; }
+  .term-bar .d { width: 12px; height: 12px; border-radius: 50%; }
+  .term-bar .d.r { background: #ff5f56; } .term-bar .d.y { background: #ffbd2e; } .term-bar .d.g { background: #27c93f; }
+  .term-bar .ttl { margin-left: 10px; color: #8b949e; font-size: 12.5px; }
+  .term-body { padding: 20px 22px; font-size: 14px; color: var(--code-ink); }
+  .term-body .line { display: flex; gap: 10px; margin: 4px 0; }
+  .term-body .pr { color: #7ee787; user-select: none; }
+  .term-body .cmt { color: #8b949e; }
+  .term-body .out { color: #c9d1d9; padding-left: 26px; }
+  .term-body .ok { color: #7ee787; }
+  .typed { border-right: 2px solid #7ee787; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { border-color: transparent; } }
+
+  /* ---------- Stats ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 60px 0; }
+  .stat { text-align: center; padding: 26px 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--bg-elev); box-shadow: var(--shadow); }
+  .stat .num { font-size: 34px; font-weight: 900; letter-spacing: -.03em; }
+  .stat .lbl { margin-top: 4px; font-size: 13.5px; color: var(--ink-soft); font-weight: 500; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0; }
+  .sec-head { text-align: center; max-width: 640px; margin: 0 auto 46px; }
+  .sec-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .sec-title { font-size: clamp(28px, 4vw, 40px); font-weight: 850; letter-spacing: -.03em; margin-top: 10px; }
+  .sec-desc { margin-top: 14px; color: var(--ink-soft); font-size: 16.5px; }
+
+  /* ---------- Feature grid ---------- */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    padding: 26px; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-elev);
+    box-shadow: var(--shadow); transition: transform .18s, border-color .18s, box-shadow .18s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); box-shadow: var(--shadow-lg); }
+  .card .ic { font-size: 26px; }
+  .card h3 { margin: 14px 0 8px; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+  .card p { color: var(--ink-soft); font-size: 14.5px; }
+
+  /* ---------- How it works ---------- */
+  .steps { position: relative; display: grid; gap: 14px; max-width: 760px; margin: 0 auto; }
+  .step { display: flex; gap: 18px; padding: 20px 22px; border-radius: 16px; border: 1px solid var(--border); background: var(--bg-elev); box-shadow: var(--shadow); }
+  .step .n {
+    flex: none; width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+    font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); font-size: 15px;
+  }
+  .step h4 { font-size: 16px; font-weight: 700; }
+  .step p { color: var(--ink-soft); font-size: 14.5px; margin-top: 3px; }
+  .step .code { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--ink-faint); }
+
+  /* ---------- Install ---------- */
+  .install { background: var(--bg-soft); }
+  .tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 26px; }
+  .tab {
+    padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev);
+    font-weight: 600; font-size: 14px; color: var(--ink-soft); cursor: pointer; transition: all .15s;
+  }
+  .tab.active { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; }
+  .codeblock { position: relative; max-width: 760px; margin: 0 auto; }
+  .codeblock pre {
+    background: var(--code-bg); color: var(--code-ink); padding: 22px 56px 22px 22px; border-radius: 14px;
+    overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7;
+    border: 1px solid var(--border); box-shadow: var(--shadow);
+  }
+  .codeblock .cmt { color: #8b949e; }
+  .copy-btn {
+    position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 9px;
+    border: 1px solid #2b3240; background: #161b22; color: #c9d1d9; cursor: pointer; display: grid; place-items: center; transition: all .15s;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: #fff; }
+  .copy-btn.done { color: #7ee787; border-color: #2ea043; }
+  .install-pane { display: none; } .install-pane.active { display: block; }
+
+  /* ---------- CTA ---------- */
+  .cta-band { text-align: center; }
+  .cta-box {
+    border-radius: 24px; padding: 56px 32px; color: #fff; position: relative; overflow: hidden;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  }
+  .cta-box h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 850; letter-spacing: -.03em; }
+  .cta-box p { margin-top: 12px; opacity: .92; font-size: 16.5px; }
+  .cta-box .btn-primary { background: #fff; color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,.2); margin-top: 26px; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border); padding: 48px 0 40px; background: var(--bg-soft); }
+  .foot { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+  .foot .col h5 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); margin-bottom: 12px; }
+  .foot .col a { display: block; color: var(--ink-soft); font-size: 14.5px; margin: 7px 0; transition: color .15s; }
+  .foot .col a:hover { color: var(--accent); }
+  .foot-bottom { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); color: var(--ink-faint); font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .features { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="brand"><span class="logo">🎬</span> PreviewForge</a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#install">Install</a>
+    </nav>
+    <div class="nav-right">
+      <a class="gh-pill" id="ghLink" href="https://github.com/NI3singh/interactive-preview-skill" target="_blank" rel="noopener" title="Star on GitHub">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.32c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span class="star">★</span><span class="count" id="starCount">…</span>
+      </a>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="badge"><span class="dot"></span> Live on npm · <span class="mono" id="npmVer">v1.0.0</span></span>
+      <h1 class="hero-title">Let visitors <span class="grad-text">try your app</span><br/>before they sign up.</h1>
+      <p class="hero-sub">
+        PreviewForge is a Claude Code skill that turns any React or Next.js codebase into an
+        interactive, theme-matched “try it before you sign up” demo — a guided product tour on mock
+        data, auto-generated from your own UI. No backend, no secrets, leaks nothing.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#install">Get started <span>→</span></a>
+        <a class="btn btn-ghost" href="https://github.com/NI3singh/interactive-preview-skill" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.32c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          Star on GitHub
+        </a>
+      </div>
+      <p class="hero-note">One command · works in any React / Next.js repo · MIT licensed</p>
+
+      <!-- terminal -->
+      <div class="terminal">
+        <div class="term-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="ttl">claude — interactive-preview</span></div>
+        <div class="term-body mono">
+          <div class="line"><span class="pr">$</span><span>npx interactive-preview-skill</span></div>
+          <div class="line out cmt">✓ installed skill → ~/.claude/skills/interactive-preview</div>
+          <div class="line"><span class="pr">›</span><span>"Add an interactive demo so visitors can try my app before signing up"</span></div>
+          <div class="line out">→ detected <b>Next.js + Tailwind</b> · extracted 18 design tokens</div>
+          <div class="line out">→ proposed hero flow · reconstructed 3 screens on mock data</div>
+          <div class="line out ok">✓ leak audit passed · /preview route ready <span class="typed">&nbsp;</span></div>
+        </div>
+      </div>
+
+      <!-- stats -->
+      <div class="stats">
+        <div class="stat"><div class="num grad-text" id="starStat">★</div><div class="lbl">GitHub stars</div></div>
+        <div class="stat"><div class="num grad-text">7</div><div class="lbl">Phase workflow</div></div>
+        <div class="stat"><div class="num grad-text">0</div><div class="lbl">Backend leaks</div></div>
+        <div class="stat"><div class="num grad-text">100%</div><div class="lbl">Eval pass rate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-eyebrow">Why PreviewForge</div>
+        <h2 class="sec-title">A real demo, not a screenshot</h2>
+        <p class="sec-desc">Static screenshots tell. A video shows. An interactive preview lets the visitor <em>do</em> the thing — generated automatically from your codebase and matched to your exact theme.</p>
+      </div>
+      <div class="features">
+        <div class="card"><div class="ic">🎨</div><h3>Looks identical to your app</h3><p>Extracts your real design tokens — Tailwind config, CSS vars, CSS-in-JS, or UI kit — so the demo is pixel-close to production.</p></div>
+        <div class="card"><div class="ic">🪄</div><h3>Guided, hands-on tour</h3><p>A spotlight highlights the next step and waits for the visitor to actually click or type it, then rewards them with a toast.</p></div>
+        <div class="card"><div class="ic">🚧</div><h3>Soft rails, not cages</h3><p>Click off-target and the spotlight gently re-pulses with a hint — guidance without frustration.</p></div>
+        <div class="card"><div class="ic">🔒</div><h3>Leaks nothing</h3><p>Presentational replicas on in-memory mock data. No fetch, no API clients, no auth, no secrets — and a bundled auditor enforces it.</p></div>
+        <div class="card"><div class="ic">🧩</div><h3>Reusable engine</h3><p>Ships a dependency-free React tour engine (just <code>react</code>) — spotlight, soft-rails, toasts, and CTA. Drop it in any project.</p></div>
+        <div class="card"><div class="ic">✏️</div><h3>Editable by data</h3><p>The whole journey is a declarative flow config. Change copy, steps, or mock data without touching engine code.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="install">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-eyebrow">How it works</div>
+        <h2 class="sec-title">A 7-phase workflow</h2>
+        <p class="sec-desc">Point the skill at a repo and it does the rest — orient, extract, propose, reconstruct, wire, deliver, and self-check.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div><h4>Orient</h4><p>Detect framework, router, styling system, TS/JS, and your landing + post-signup screens.</p><span class="code">scripts/detect_stack.mjs</span></div></div>
+        <div class="step"><div class="n">2</div><div><h4>Extract tokens</h4><p>Pull your real colors, fonts, radii, and shadows into one <code>theme.tokens</code> file.</p></div></div>
+        <div class="step"><div class="n">3</div><div><h4>Propose a flow</h4><p>Infer candidate user journeys, rank them, and propose the single most compelling “aha” for your approval.</p></div></div>
+        <div class="step"><div class="n">4</div><div><h4>Reconstruct</h4><p>Rebuild only the screens that flow touches as isolated, presentational replicas on mock data.</p></div></div>
+        <div class="step"><div class="n">5</div><div><h4>Wire the tour</h4><p>Author a declarative flow config; the bundled engine handles spotlight, soft-rails, toasts, and the CTA.</p></div></div>
+        <div class="step"><div class="n">6</div><div><h4>Deliver</h4><p>Add a <code>/preview</code> route and inject a reversible, theme-matched launch button on your landing page.</p></div></div>
+        <div class="step"><div class="n">7</div><div><h4>Self-check</h4><p>Run the leak auditor and verify the flow end-to-end.</p><span class="code">scripts/audit_preview.mjs</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section id="install">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-eyebrow">Install</div>
+        <h2 class="sec-title">Pick your method</h2>
+        <p class="sec-desc">All four install the same skill into Claude Code. Then just ask Claude in any React/Next.js project.</p>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-pane="npx">npx</button>
+        <button class="tab" data-pane="plugin">Plugin marketplace</button>
+        <button class="tab" data-pane="git">Git clone</button>
+      </div>
+
+      <div class="install-pane active" data-pane="npx">
+        <div class="codeblock">
+          <pre><span class="cmt"># global install → ~/.claude/skills/</span>
+npx interactive-preview-skill
+
+<span class="cmt"># this project only → ./.claude/skills/</span>
+npx interactive-preview-skill --project</pre>
+          <button class="copy-btn" data-copy='npx interactive-preview-skill'>⧉</button>
+        </div>
+      </div>
+
+      <div class="install-pane" data-pane="plugin">
+        <div class="codeblock">
+          <pre>claude plugin marketplace add NI3singh/interactive-preview-skill
+claude plugin install interactive-preview@preview-forge</pre>
+          <button class="copy-btn" data-copy='claude plugin marketplace add NI3singh/interactive-preview-skill
+claude plugin install interactive-preview@preview-forge'>⧉</button>
+        </div>
+      </div>
+
+      <div class="install-pane" data-pane="git">
+        <div class="codeblock">
+          <pre>git clone https://github.com/NI3singh/interactive-preview-skill
+cp -r interactive-preview-skill/skills/interactive-preview ~/.claude/skills/</pre>
+          <button class="copy-btn" data-copy='git clone https://github.com/NI3singh/interactive-preview-skill
+cp -r interactive-preview-skill/skills/interactive-preview ~/.claude/skills/'>⧉</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="wrap">
+      <div class="cta-box">
+        <h2>Show your product, don’t describe it.</h2>
+        <p>Add an interactive “try it before you sign up” demo to your landing page in minutes.</p>
+        <a class="btn btn-primary" href="https://github.com/NI3singh/interactive-preview-skill" target="_blank" rel="noopener">⭐ Star it on GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="col" style="max-width:300px">
+        <div class="brand" style="margin-bottom:12px"><span class="logo">🎬</span> PreviewForge</div>
+        <p style="color:var(--ink-soft);font-size:14px">An open-source Claude Code skill that auto-generates interactive product demos from your React/Next.js codebase.</p>
+      </div>
+      <div class="col">
+        <h5>Product</h5>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#install">Install</a>
+      </div>
+      <div class="col">
+        <h5>Resources</h5>
+        <a href="https://github.com/NI3singh/interactive-preview-skill" target="_blank" rel="noopener">GitHub repo</a>
+        <a href="https://www.npmjs.com/package/interactive-preview-skill" target="_blank" rel="noopener">npm package</a>
+        <a href="https://github.com/NI3singh/interactive-preview-skill/releases" target="_blank" rel="noopener">Releases</a>
+      </div>
+      <div class="col">
+        <h5>Built with</h5>
+        <a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a>
+        <a href="https://github.com/NI3singh/interactive-preview-skill/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> PreviewForge · Built &amp; benchmarked with Claude Code.</span>
+      <span class="mono">interactive-preview-skill</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const REPO = "NI3singh/interactive-preview-skill";
+
+  // ---- Theme ----
+  const root = document.documentElement;
+  const saved = localStorage.getItem("pf-theme");
+  if (saved) root.setAttribute("data-theme", saved);
+  const syncIcon = () => { document.getElementById("themeIcon").textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙"; };
+  syncIcon();
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("pf-theme", next);
+    syncIcon();
+  });
+
+  // ---- Year ----
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ---- Tabs ----
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      const pane = tab.dataset.pane;
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
+      document.querySelectorAll(".install-pane").forEach(p => p.classList.toggle("active", p.dataset.pane === pane));
+    });
+  });
+
+  // ---- Copy buttons ----
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        const old = btn.textContent; btn.textContent = "✓"; btn.classList.add("done");
+        setTimeout(() => { btn.textContent = old; btn.classList.remove("done"); }, 1400);
+      } catch (e) {}
+    });
+  });
+
+  // ---- Live GitHub star count ----
+  const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : String(n);
+  fetch("https://api.github.com/repos/" + REPO)
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(d => {
+      const n = d.stargazers_count ?? 0;
+      document.getElementById("starCount").textContent = fmt(n);
+      document.getElementById("starStat").textContent = fmt(n);
+    })
+    .catch(() => {
+      document.getElementById("starCount").textContent = "★";
+      document.getElementById("starStat").textContent = "★";
+    });
+
+  // ---- Live npm version ----
+  fetch("https://registry.npmjs.org/interactive-preview-skill/latest")
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => { if (d.version) document.getElementById("npmVer").textContent = "v" + d.version; })
+    .catch(() => {});
+</script>
+</body>
+</html>
