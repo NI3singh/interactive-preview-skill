@@ -1,5 +1,10 @@
 # 🎬 interactive-preview · *PreviewForge*
 
+[![npm version](https://img.shields.io/npm/v/interactive-preview-skill.svg)](https://www.npmjs.com/package/interactive-preview-skill)
+[![npm downloads](https://img.shields.io/npm/dm/interactive-preview-skill.svg)](https://www.npmjs.com/package/interactive-preview-skill)
+[![node](https://img.shields.io/node/v/interactive-preview-skill.svg)](https://nodejs.org)
+[![license](https://img.shields.io/npm/l/interactive-preview-skill.svg)](LICENSE)
+
 A **Claude Code / Agent skill** that turns any React or Next.js codebase into an **interactive,
 theme-matched “try it before you sign up” demo** — a guided product tour that lives behind a button
 on your landing page, runs on mock data, and shows visitors exactly what your app feels like *after*
