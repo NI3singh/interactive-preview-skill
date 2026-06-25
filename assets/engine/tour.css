@@ -1,0 +1,33 @@
+/* Tour engine keyframes and motion. Visual styling (colors, radii, fonts) comes from your
+   theme tokens via inline styles on each component — this file only holds animation, so it
+   stays tiny and won't fight the host site. All class names are prefixed `pf-`. */
+
+@keyframes pf-pulse {
+  0%   { box-shadow: 0 0 0 0 var(--pf-ring, rgba(109, 94, 252, 0.55)); }
+  70%  { box-shadow: 0 0 0 12px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+
+@keyframes pf-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pf-pop {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Pulses twice to draw the eye, then settles — used on first show and on every off-step nudge. */
+.pf-pulsing { animation: pf-pulse 1s ease-out 2; }
+.pf-fade-up { animation: pf-fade-up 0.22s ease-out both; }
+.pf-pop { animation: pf-pop 0.2s ease-out both; }
+
+/* The spotlight glides between targets; honor reduced-motion by snapping instead. */
+.pf-anim { transition: top 0.32s cubic-bezier(0.4, 0, 0.2, 1), left 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+           width 0.32s cubic-bezier(0.4, 0, 0.2, 1), height 0.32s cubic-bezier(0.4, 0, 0.2, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pulsing, .pf-fade-up, .pf-pop { animation: none !important; }
+  .pf-anim { transition: none !important; }
+}

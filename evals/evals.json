@@ -1,0 +1,57 @@
+{
+  "skill_name": "interactive-preview",
+  "notes": "Each eval runs against a fresh copy of the Circle fixture (a Next.js App Router + Tailwind social app) at fixtures/circle-app. The with_skill subagent is given this skill; the baseline gets the same prompt with no skill. Assertions are graded against the files produced in the project (preview/ plus the landing-page edit).",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "This is Circle, my social app (Next.js + Tailwind). I want visitors on the landing page to try it before signing up: add an interactive guided demo behind a button that walks them through searching for someone and adding them as a friend, on fake data. It should look exactly like the real app but must not touch my real backend.",
+      "expected_output": "A preview/ directory containing extracted theme tokens, reconstructed Feed + Search replica screens on mock data (including a searchable 'Nitin'), the bundled tour engine, and a declarative flow config for search -> type name -> Add -> reward. A /preview route is registered, a theme-matched launch button is injected on app/page.tsx (reversible), and the flow ends on a signup CTA to /signup. Nothing under preview/ imports lib/api or makes network calls.",
+      "files": [],
+      "expectations": [
+        "Creates a preview/ directory inside the project",
+        "Emits a design-tokens file (e.g. preview/theme.tokens.*) that captures the app's brand color (#6d5efc) and dark surfaces",
+        "Stores the demo as a declarative flow config under preview/flows/ (data, not hardcoded into components)",
+        "Includes the tour engine under preview/engine/ with a Tour component",
+        "Reconstructs Search and Feed as presentational replica screens under preview/screens/",
+        "Includes mock data featuring a 'Nitin' profile that the demo runs on",
+        "The hero flow is search-for-and-add-a-friend (open search -> type a name -> tap Add -> reward toast)",
+        "No file under preview/ contains fetch(, axios, /api/, process.env, or an import from lib/api (guardrail: no real network or logic)",
+        "Injects a theme-matched launch button into app/page.tsx that links to /preview and is comment-marked so it is easy to remove",
+        "Registers a /preview route (app/preview/page.tsx) that renders the tour",
+        "The flow ends on a signup call-to-action pointing at /signup"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "can you make it so people can mess around with my app's feed and search without making an account? like a little interactive walkthrough on the homepage that shows how it works. it's a next.js app.",
+      "expected_output": "Even though the user never says 'preview', the skill triggers and produces the same isolated, theme-matched guided demo: a preview/ directory with reconstructed feed/search screens on mock data, a declarative flow, the engine, a /preview route, a launch button injected on the homepage, and a signup payoff. No real backend is touched.",
+      "files": [],
+      "expectations": [
+        "Recognizes this as an interactive-preview task despite the word 'preview' never appearing",
+        "Creates a preview/ directory inside the project",
+        "Reconstructs the feed and/or search experience as presentational replica screens on mock data",
+        "Stores the demo as a declarative flow config under preview/flows/",
+        "Includes the tour engine under preview/engine/ with a Tour component",
+        "No file under preview/ contains fetch(, axios, /api/, process.env, or an import from lib/api",
+        "Injects a reversible, theme-matched launch button on the landing page (app/page.tsx)",
+        "Registers a /preview route and ends the flow on a signup CTA to /signup"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a 'See it in action' demo to my landing page that walks a new visitor through the single coolest thing Circle does. You pick the flow — make it feel premium and identical to the real UI, just on dummy data.",
+      "expected_output": "The skill auto-selects a sensible hero flow (most likely find-and-add-a-friend or the feed experience), states that assumption since there's no interactive approval, and builds the full isolated preview: tokens, replica screens, declarative flow, engine, /preview route, a 'See it in action' launch button on the landing page, and a signup payoff. Looks like the real app; runs on mock data only.",
+      "files": [],
+      "expectations": [
+        "Auto-selects one focused hero flow and states the assumption it made (no interactive approval available)",
+        "Creates a preview/ directory with extracted theme tokens matching the app's look",
+        "Reconstructs the relevant screen(s) as presentational replicas on mock data",
+        "Stores the demo as a declarative flow config under preview/flows/",
+        "Includes the tour engine under preview/engine/ with a Tour component",
+        "No file under preview/ contains fetch(, axios, /api/, process.env, or an import from lib/api",
+        "Injects a theme-matched 'See it in action' launch button on app/page.tsx (reversible)",
+        "Registers a /preview route and ends on a signup CTA pointing at /signup"
+      ]
+    }
+  ]
+}
