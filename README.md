@@ -126,5 +126,6 @@ interactive-preview/
 ```
 
 ---
+## License
 
-<sub>🤖 Built and benchmarked with [Claude Code](https://claude.com/claude-code).</sub>
+[MIT](LICENSE) — do whatever you like, just keep the notice.
