@@ -1,0 +1,33 @@
+{
+  "name": "interactive-preview-skill",
+  "version": "1.0.0",
+  "description": "Installer for the interactive-preview Claude Code skill — generates an interactive 'try it before you sign up' demo for React/Next.js apps.",
+  "type": "module",
+  "bin": {
+    "interactive-preview-skill": "bin/install.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skill",
+    "interactive-demo",
+    "product-tour",
+    "onboarding",
+    "react",
+    "nextjs"
+  ],
+  "homepage": "https://github.com/NI3singh/interactive-preview-skill",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NI3singh/interactive-preview-skill.git"
+  },
+  "author": "Ni3singh",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  }
+}

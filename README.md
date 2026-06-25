@@ -33,24 +33,24 @@ experience, **auto-generated from your codebase**, embedded natively, and matche
 
 Pick whichever you like — all install the same skill.
 
-### ① Plugin marketplace — *recommended* (one command, supports updates)
+### ① Plugin marketplace — *recommended for Claude Code* (one command, supports updates)
 ```bash
 claude plugin marketplace add NI3singh/interactive-preview-skill
 claude plugin install interactive-preview@preview-forge
 ```
-…or interactively inside Claude Code:
-```
-/plugin marketplace add NI3singh/interactive-preview-skill
-/plugin install interactive-preview@preview-forge
+…or interactively: `/plugin marketplace add NI3singh/interactive-preview-skill` then `/plugin install interactive-preview@preview-forge`.
+
+### ② npx — one-liner (needs Node ≥ 16)
+```bash
+npx interactive-preview-skill            # installs to ~/.claude/skills/
+npx interactive-preview-skill --project  # installs to ./.claude/skills/  (this project only)
 ```
 
-### ② Download a release (zip)
+### ③ Download a release (zip)
 1. Grab **`interactive-preview-skill.zip`** from the [latest release](https://github.com/NI3singh/interactive-preview-skill/releases/latest).
-2. Unzip it and move the `interactive-preview/` folder into your skills directory:
-   - Personal: `~/.claude/skills/`
-   - Project: `<your-project>/.claude/skills/`
+2. Unzip it and move the `interactive-preview/` folder into your skills directory (`~/.claude/skills/` or `<project>/.claude/skills/`).
 
-### ③ Git clone + copy
+### ④ Git clone + copy
 ```bash
 git clone https://github.com/NI3singh/interactive-preview-skill
 cp -r interactive-preview-skill/skills/interactive-preview ~/.claude/skills/
@@ -124,6 +124,26 @@ versus ad-hoc, non-isolated demos without it. The scenarios and assertions live 
 
 ---
 
+## 📤 Releasing (maintainers)
+
+One version tag ships all install methods automatically:
+
+```bash
+# bump "version" in package.json first, then:
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+- **`release.yml`** → zips the skill into `interactive-preview-skill.zip` and creates the GitHub Release (powers the *download* install).
+- **`npm-publish.yml`** → publishes the package to npm (powers the *npx* install).
+  - **One-time setup:** add a repo secret **`NPM_TOKEN`** (npm → *Access Tokens → Automation*).
+  - Bump `version` in `package.json` before each tag — npm refuses to re-publish the same version.
+  - If the name `interactive-preview-skill` is taken on npm, scope it (e.g. `@ni3singh/interactive-preview-skill`) in `package.json`; users then run `npx @ni3singh/interactive-preview-skill`.
+
+The **marketplace** install needs no release — it works the moment the manifests are pushed to `main`.
+
+---
+
 ## 📁 Repository layout
 
 ```
@@ -140,8 +160,12 @@ interactive-preview-skill/
 │       │   └── templates/   # starter flow + token templates
 │       ├── scripts/         # detect_stack.mjs, audit_preview.mjs
 │       └── evals/           # test suite (scenarios + assertions)
+├── bin/
+│   └── install.mjs          # the npx installer
+├── package.json             # npm package (powers `npx interactive-preview-skill`)
 ├── .github/workflows/
-│   └── release.yml          # zips the skill into a GitHub Release on a version tag
+│   ├── release.yml          # zip → GitHub Release on a version tag
+│   └── npm-publish.yml      # publish → npm on a version tag (needs NPM_TOKEN)
 ├── README.md
 └── LICENSE
 ```
