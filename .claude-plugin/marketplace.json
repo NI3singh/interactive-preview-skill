@@ -1,10 +1,10 @@
 {
-  "name": "preview-forge",
+  "name": "interactive-preview-skill",
   "owner": {
     "name": "NI3singh"
   },
   "metadata": {
-    "description": "PreviewForge — interactive 'try it before you sign up' demo generator for React/Next.js apps."
+    "description": "interactive preview/demo generator for React/Next.js apps."
   },
   "plugins": [
     {
