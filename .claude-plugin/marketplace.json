@@ -1,0 +1,16 @@
+{
+  "name": "preview-forge",
+  "owner": {
+    "name": "NI3singh"
+  },
+  "metadata": {
+    "description": "PreviewForge — interactive 'try it before you sign up' demo generator for React/Next.js apps."
+  },
+  "plugins": [
+    {
+      "name": "interactive-preview",
+      "source": ".",
+      "description": "Generate an interactive, theme-matched guided demo for a React/Next.js site, behind a launch button on the landing page. Runs on mock data; exposes no backend."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "interactive-preview",
+  "version": "1.0.0",
+  "description": "Generate an interactive, theme-matched 'try it before you sign up' demo for a React/Next.js site, behind a launch button on the landing page. Runs entirely on mock data and exposes no backend.",
+  "author": {
+    "name": "NI3singh"
+  },
+  "homepage": "https://github.com/NI3singh/interactive-preview-skill",
+  "repository": "https://github.com/NI3singh/interactive-preview-skill",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "skill",
+    "interactive-demo",
+    "product-tour",
+    "onboarding",
+    "react",
+    "nextjs",
+    "preview"
+  ]
+}

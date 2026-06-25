@@ -29,6 +29,45 @@ experience, **auto-generated from your codebase**, embedded natively, and matche
 
 ---
 
+## 🚀 Install
+
+Pick whichever you like — all install the same skill.
+
+### ① Plugin marketplace — *recommended* (one command, supports updates)
+```bash
+claude plugin marketplace add NI3singh/interactive-preview-skill
+claude plugin install interactive-preview@preview-forge
+```
+…or interactively inside Claude Code:
+```
+/plugin marketplace add NI3singh/interactive-preview-skill
+/plugin install interactive-preview@preview-forge
+```
+
+### ② Download a release (zip)
+1. Grab **`interactive-preview-skill.zip`** from the [latest release](https://github.com/NI3singh/interactive-preview-skill/releases/latest).
+2. Unzip it and move the `interactive-preview/` folder into your skills directory:
+   - Personal: `~/.claude/skills/`
+   - Project: `<your-project>/.claude/skills/`
+
+### ③ Git clone + copy
+```bash
+git clone https://github.com/NI3singh/interactive-preview-skill
+cp -r interactive-preview-skill/skills/interactive-preview ~/.claude/skills/
+```
+
+Then, in any React/Next.js project, just ask Claude — you don’t need to say “preview”:
+
+> “Add an interactive demo to my landing page so visitors can try the app before signing up.”
+
+> “Let people mess around with my feed and search without an account.”
+
+> “Put a ‘see it in action’ walkthrough on the homepage that shows the coolest thing my app does.”
+
+The skill detects your stack, proposes a hero flow for your approval, and generates everything.
+
+---
+
 ## 🧠 How it works
 
 Point the skill at a repo and it runs a 7-phase workflow:
@@ -40,32 +79,6 @@ Point the skill at a repo and it runs a 7-phase workflow:
 5. **Wire the tour** — author a declarative flow config; the bundled engine handles spotlight, soft-rails, toasts, and the CTA.
 6. **Deliver** — add a `/preview` route and inject a reversible, theme-matched launch button on your landing page.
 7. **Self-check** — run the leak auditor (`scripts/audit_preview.mjs`) and verify the flow end-to-end.
-
----
-
-## 🚀 Install
-
-**Claude Code (user-level skill):**
-```bash
-# copy this folder into your skills directory
-cp -r interactive-preview ~/.claude/skills/
-```
-…or drop the packaged `interactive-preview.skill` bundle into Claude Code. The skill then becomes
-available automatically — no config.
-
----
-
-## 💬 Use it
-
-Just ask naturally in a React/Next.js project — you don’t need to say “preview”:
-
-> “Add an interactive demo to my landing page so visitors can try the app before signing up.”
-
-> “Let people mess around with my feed and search without an account.”
-
-> “Put a ‘see it in action’ walkthrough on the homepage that shows the coolest thing my app does.”
-
-The skill detects your stack, proposes a hero flow for your approval, and generates everything.
 
 ---
 
@@ -98,7 +111,7 @@ for real call sites and data-layer imports (while correctly ignoring comments/RE
 In a controlled benchmark against a Next.js + Tailwind fixture app, the skill produced a complete,
 guardrail-clean, isolated preview in **3/3 scenarios (100% of assertions, across two iterations)** —
 versus ad-hoc, non-isolated demos without it. The scenarios and assertions live in
-[`evals/evals.json`](evals/evals.json).
+[`skills/interactive-preview/evals/evals.json`](skills/interactive-preview/evals/evals.json).
 
 ---
 
@@ -114,18 +127,29 @@ versus ad-hoc, non-isolated demos without it. The scenarios and assertions live 
 ## 📁 Repository layout
 
 ```
-interactive-preview/
-├── SKILL.md            # the skill definition Claude loads (workflow + guardrails)
-├── README.md           # you are here
-├── references/         # deep-dive docs Claude reads per phase
-├── assets/
-│   ├── engine/         # the reusable React tour engine
-│   └── templates/      # starter flow + token templates
-├── scripts/            # detect_stack.mjs, audit_preview.mjs
-└── evals/              # test suite (scenarios + assertions)
+interactive-preview-skill/
+├── .claude-plugin/
+│   ├── marketplace.json     # enables `claude plugin marketplace add …`
+│   └── plugin.json          # plugin manifest
+├── skills/
+│   └── interactive-preview/ # 👈 the skill itself
+│       ├── SKILL.md         # the definition Claude loads (workflow + guardrails)
+│       ├── references/      # deep-dive docs Claude reads per phase
+│       ├── assets/
+│       │   ├── engine/      # the reusable React tour engine
+│       │   └── templates/   # starter flow + token templates
+│       ├── scripts/         # detect_stack.mjs, audit_preview.mjs
+│       └── evals/           # test suite (scenarios + assertions)
+├── .github/workflows/
+│   └── release.yml          # zips the skill into a GitHub Release on a version tag
+├── README.md
+└── LICENSE
 ```
 
 ---
+
 ## License
 
 [MIT](LICENSE) — do whatever you like, just keep the notice.
+
+<sub>🤖 Built and benchmarked with [Claude Code](https://claude.com/claude-code).</sub>

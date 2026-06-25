@@ -1,0 +1,42 @@
+name: Release
+
+# Method "download a release": on a version tag (e.g. v1.0.0) this zips the skill and attaches
+# it to a GitHub Release so users can download + drop it into their Claude skills directory.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package the skill (zip, excluding dev-only evals)
+        run: |
+          cd skills
+          zip -r ../interactive-preview-skill.zip interactive-preview -x 'interactive-preview/evals/*'
+          cd ..
+          ls -la interactive-preview-skill.zip
+
+      - name: Create GitHub Release with the skill zip
+        uses: softprops/action-gh-release@v2
+        with:
+          files: interactive-preview-skill.zip
+          generate_release_notes: true
+          body: |
+            ## interactive-preview ${{ github.ref_name }}
+
+            **Download install:** grab `interactive-preview-skill.zip` below, unzip it, and move the
+            `interactive-preview/` folder into your Claude skills directory:
+
+            - Personal: `~/.claude/skills/`
+            - Project:  `<your-project>/.claude/skills/`
+
+            Then ask Claude: *"add an interactive demo to my landing page."*
+
+            Prefer one command? See the marketplace install in the README.
