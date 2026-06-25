@@ -1,5 +1,5 @@
 {
-  "name": "interactive-preview-skill",
+  "name": "@ni3singh/interactive-preview-skill",
   "version": "1.0.0",
   "description": "Installer for the interactive-preview Claude Code skill — generates an interactive 'try it before you sign up' demo for React/Next.js apps.",
   "type": "module",
